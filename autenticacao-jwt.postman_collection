@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "e1008f7c-3625-4330-9048-3927feafc7be",
+		"name": "Sistema Odontologia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26765893"
+	},
+	"item": [
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Encontrar por id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndWlsaGVybWVAZ21haWwuY29tIiwiZXhwIjoxNzA1NDc4NzQ3fQ.52U6EpVovrZgixLGGRJDnbgfOYJl2hmL53-K4f9cknR5Aq3JMi0myZ4GdCGHPds_cgCtS2m3BbpavneHtjUfiQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/usuario/29d76b98-3d3a-489f-96db-24392e1cb5ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuario",
+								"29d76b98-3d3a-489f-96db-24392e1cb5ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Guilherme\",\r\n    \"rg\": \"19.180-413\",\r\n    \"cpf\": \"917.272.680-67\",\r\n    \"data_nascimento\": \"20/04/1997\",\r\n    \"email\": \"guilherme@gmail.com\",\r\n    \"senha\": \"123456\",\r\n    \"telefone\": \"31 98817-3688\",\r\n    \"endereco\": {\r\n        \"rua\": \"Rua primeiro de maio\",\r\n        \"numero\": 21,\r\n        \"bairro\": \"Centenario\",\r\n        \"complemento\": \"-\",\r\n        \"cep\": \"36920-000\",\r\n        \"cidade\": \"Belo Horizonte\",\r\n        \"estado\": \"MINAS_GERAIS\"\r\n    },\r\n    \"plano\": \"plano teste\",\r\n    \"consultas\": \"consulta teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHdWlsaGVybWUiLCJleHAiOjE3MDQzMzc4ODB9.9LkB9d86wmu32-YIMMf3Tr13BpHUD6CBuAtWWe_R64xUEtRZm5Rwjj69X1OlsW46F6twhOSsWDyvvqLgYQLBGg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/usuario/80152c25-6c65-4f62-a04a-c6b525104ca0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuario",
+								"80152c25-6c65-4f62-a04a-c6b525104ca0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndWlsaGVybWVAZ21haWwuY29tIiwiZXhwIjoxNzA0NzU1Mjk4fQ.IvQ6vRHZV9Aef-rtz5uONoiK88mtRosl9GIEX4NXmmhpHYCBAJRh21C6R_W4e6OT9S4YJSygj_R327kTaZa3bQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Guilherme Atualizado\",\r\n    \"rg\": \"19.180-413\",\r\n    \"cpf\": \"123.527.926-55\",\r\n    \"data_nascimento\": \"20/04/1997\",\r\n    \"email\": \"guilherme@gmail.com\",\r\n    \"senha\": \"123456\",\r\n    \"telefone\": \"31 98817-3688\",\r\n    \"endereco\": {\r\n        \"rua\": \"Rua primeiro de maio - ATUALIZADO\",\r\n        \"numero\": 21,\r\n        \"bairro\": \"Centenario\",\r\n        \"complemento\": \"-\",\r\n        \"cep\": \"36920-000\",\r\n        \"cidade\": \"Belo Horizonte\",\r\n        \"estado\": \"MG\"\r\n    },\r\n    \"plano\": \"plano teste\",\r\n    \"consultas\": \"consulta teste\",\r\n    \"perfil_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuario/e68e0006-a912-47ab-9153-c5cdd59806bc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuario",
+								"e68e0006-a912-47ab-9153-c5cdd59806bc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar senha",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndWlsaGVybWVAZ21haWwuY29tIiwiZXhwIjoxNzA1MDEzNjMxfQ.jnm7FcIbcEKsFndJ8VBgrqSY59J7htBUV02Ka9Wq3_DVMqwBb5jwaG5STHYyf3d06cHa6HdBw2_wKVoa4KqvsA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senha_original\": \"123456\",\r\n    \"senha_atualizada\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuario/f80c380c-cc63-4fcc-8aae-d824f2317741/atualizar-senha",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuario",
+								"f80c380c-cc63-4fcc-8aae-d824f2317741",
+								"atualizar-senha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHdWlsaGVybWUiLCJleHAiOjE3MDQwMzc1ODJ9.cJwvDig_JYgjO7If-R1x36K64LhVooG1m_f-v0a4nmIlSLrVLnt75Gqvro1Sb6nQkb5nTstg065mkKcWEny8K",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"guilherme@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gerenciamento",
+			"item": [
+				{
+					"name": "Indicador de saúde",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
