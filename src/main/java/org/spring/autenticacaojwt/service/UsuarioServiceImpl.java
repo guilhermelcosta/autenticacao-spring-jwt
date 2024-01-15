@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.dto.EnderecoDTO;
 import org.spring.autenticacaojwt.dto.SenhaDTO;
 import org.spring.autenticacaojwt.dto.UsuarioDTO;
-import org.spring.autenticacaojwt.enums.PerfilUsuario;
 import org.spring.autenticacaojwt.excecoes.lancaveis.DeletarEntidadeException;
 import org.spring.autenticacaojwt.excecoes.lancaveis.EntidadeNaoEncontradaException;
 import org.spring.autenticacaojwt.model.Endereco;
@@ -17,6 +16,7 @@ import org.spring.autenticacaojwt.service.interfaces.EnderecoService;
 import org.spring.autenticacaojwt.service.interfaces.UsuarioService;
 import org.spring.autenticacaojwt.util.ConversorEntidadeDTOUtil;
 import org.spring.autenticacaojwt.util.VerificadorUsuarioUtil;
+import org.spring.autenticacaojwt.util.enums.PerfilUsuario;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Objects.isNull;
 import static org.spring.autenticacaojwt.util.ConstantesUtil.PROPRIEDADES_ADMIN;
 import static org.spring.autenticacaojwt.util.ConversorEntidadeDTOUtil.converterParaDTO;
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -40,12 +39,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final EnderecoService enderecoService;
-    private final PasswordEncoderImpl encriptadorSenha;
+    private final PasswordEncoderImpl passwordEncoder;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository, EnderecoService enderecoService) {
         this.usuarioRepository = usuarioRepository;
         this.enderecoService = enderecoService;
-        this.encriptadorSenha = PasswordEncoderImpl.getInstancia();
+        this.passwordEncoder = PasswordEncoderImpl.getInstancia();
     }
 
     /**
@@ -64,18 +63,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     /**
-     * Encontra um usuário a partir do seu nome
+     * Encontra um usuário a partir do seu email
      *
      * @param email email do usuário
      * @return usuário encontrado
      */
     @Override
-    public Usuario encontrarUsuarioPorEmail(@NotNull String email) {
-        log.info(">>> encontrarUsuarioPorEmail: encontrando usuário por email");
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        if (isNull(usuario))
-            throw new EntidadeNaoEncontradaException(String.format("usuário não encontrado, email: %s", email));
-        return usuario;
+    public Usuario encontrarPorEmail(@NotNull String email) {
+        log.info(">>> encontrarPorEmail: encontrando usuário por email");
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format("usuário não encontrado, email: %s", email)));
     }
 
     /**
@@ -89,7 +86,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         log.info(">>> listarTodos: listando todos usuários");
         return usuarioRepository.findAll()
                 .stream()
-                .map(ConversorEntidadeDTOUtil::converterParaDTO).toList();
+                .map(ConversorEntidadeDTOUtil::converterParaDTO)
+                .toList();
     }
 
     /**
@@ -105,7 +103,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setId(null);
         usuario.setDataCriacao(LocalDateTime.now());
         usuario.setDataUltimaModificacao(LocalDateTime.now());
-        usuario.setSenha(encriptadorSenha.encode(usuario.getSenha()));
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuario.setPerfilUsuario(PerfilUsuario.USUARIO.getCodigo());
         usuario = usuarioRepository.save(usuario);
         log.info(String.format(">>> criar: usuário criado, id: %s", usuario.getId()));
@@ -169,8 +167,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void atualizarSenha(@NotNull UUID id, @NotNull SenhaDTO senhaDTO) {
         VerificadorUsuarioUtil.verificarAutorizacao(id);
         UsuarioDTO usuarioDTO = encontrarPorId(id);
-        if (encriptadorSenha.matches(senhaDTO.senhaOriginal(), usuarioRepository.encontrarSenhaUsuarioPorId(usuarioDTO.id())))
-            usuarioRepository.atualizarSenhaUsuario(encriptadorSenha.encode(senhaDTO.senhaAtualizada()), id);
+        if (passwordEncoder.matches(senhaDTO.senhaOriginal(), usuarioRepository.encontrarSenhaUsuarioPorId(usuarioDTO.id())))
+            usuarioRepository.atualizarSenhaUsuario(passwordEncoder.encode(senhaDTO.senhaAtualizada()), id);
         else
             throw new DataIntegrityViolationException(String.format("senha original incorreta, id do usuário: %s", id));
     }
@@ -182,11 +180,9 @@ public class UsuarioServiceImpl implements UsuarioService {
      * @return usuário encontrado
      */
     protected Usuario encontrarUsuarioPorIdEndereco(@NotNull UUID id) {
-        log.info(">>> encontrarUsuarioPorIdEndereco: encontrando usuário por endereco");
-        Usuario usuario = usuarioRepository.encontrarUsuarioPorIdEndereco(id);
-        if (isNull(usuario))
-            throw new EntidadeNaoEncontradaException(String.format("usuário não encontrado, id: %s", id));
-        return usuario;
+        log.info(">>> encontrarUsuarioPorIdEndereco: encontrando usuário por endereço");
+        return usuarioRepository.encontrarUsuarioPorIdEndereco(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format("usuário não encontrado, id: %s", id)));
     }
 
     /**

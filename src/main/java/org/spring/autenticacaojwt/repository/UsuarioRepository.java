@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,7 +20,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
      * @return usuário encontrado
      */
     @Transactional(readOnly = true)
-    Usuario findByEmail(String email);
+    Optional<Usuario> findByEmail(String email);
 
     /**
      * Encontra um usuário a partir do id do seu endereço
@@ -44,9 +45,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             u.dataUltimaModificacao,
             u.plano,
             u.consultas)
-            FROM Usuario u WHERE u.endereco.id = :id
+            FROM Usuario u
+            WHERE u.endereco.id = :id
             """)
-    Usuario encontrarUsuarioPorIdEndereco(UUID id);
+    Optional<Usuario> encontrarUsuarioPorIdEndereco(UUID id);
 
     /**
      * Encontra a senha de um usuário a partir do seu id
@@ -54,7 +56,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
      * @return senha do usuário
      */
     @Transactional(readOnly = true)
-    @Query("SELECT u.senha from Usuario u WHERE u.id = :id")
+    @Query("SELECT u.senha FROM Usuario u WHERE u.id = :id")
     String encontrarSenhaUsuarioPorId(UUID id);
 
     /**

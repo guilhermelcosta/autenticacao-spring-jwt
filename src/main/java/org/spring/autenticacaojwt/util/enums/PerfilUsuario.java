@@ -1,16 +1,18 @@
-package org.spring.autenticacaojwt.enums;
+package org.spring.autenticacaojwt.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
 
+import static org.spring.autenticacaojwt.util.ConstantesUtil.*;
+
 @Getter
 @AllArgsConstructor
 public enum PerfilUsuario {
 
-    ADMIN(1, "ROLE_ADMIN"),
-    USUARIO(2, "ROLE_USUARIO");
+    ADMIN(NUM_UM, ROLE_ADMIN),
+    USUARIO(NUM_DOIS, ROLE_USUARIO);
 
     private final Integer codigo;
     private final String descricao;

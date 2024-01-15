@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.spring</groupId>
-    <artifactId>autenticacao_spring_jwt</artifactId>
+    <artifactId>autenticacao-jwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sistema-odontologia</name>
-    <description>sistema-odontologia</description>
+    <name>autenticacao-jwt</name>
+    <description>autenticacao-jwt</description>
     <properties>
         <java.version>21</java.version>
     </properties>

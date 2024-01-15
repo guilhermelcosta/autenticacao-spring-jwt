@@ -2,7 +2,7 @@ package org.spring.autenticacaojwt.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.spring.autenticacaojwt.controller.UsuarioController;
+import org.spring.autenticacaojwt.controller.UsuarioControllerImpl;
 import org.spring.autenticacaojwt.dto.EnderecoDTO;
 import org.spring.autenticacaojwt.dto.UsuarioDTO;
 import org.spring.autenticacaojwt.model.Endereco;
@@ -36,7 +36,9 @@ public class ConversorEntidadeDTOUtil {
                 .telefone(usuario.getTelefone())
                 .dataCriacao(usuario.getDataCriacao())
                 .dataUltimaModificacao(usuario.getDataUltimaModificacao())
-                .links(Collections.singletonList(linkTo(UsuarioController.class).slash(usuario.getId()).withSelfRel()))
+                .plano(usuario.getPlano())
+                .consultas(usuario.getConsultas())
+                .links(Collections.singletonList(linkTo(UsuarioControllerImpl.class).slash(usuario.getId()).withSelfRel()))
                 .build();
     }
 

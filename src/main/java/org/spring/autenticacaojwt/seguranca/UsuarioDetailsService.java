@@ -1,9 +1,9 @@
 package org.spring.autenticacaojwt.seguranca;
 
 import lombok.extern.slf4j.Slf4j;
-import org.spring.autenticacaojwt.enums.PerfilUsuario;
 import org.spring.autenticacaojwt.model.Usuario;
 import org.spring.autenticacaojwt.service.interfaces.UsuarioService;
+import org.spring.autenticacaojwt.util.enums.PerfilUsuario;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +29,7 @@ public class UsuarioDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) {
         log.info(">>> loadUserByUsername: carregando informações do usuário");
-        Usuario usuario = usuarioService.encontrarUsuarioPorEmail(email);
+        Usuario usuario = usuarioService.encontrarPorEmail(email);
         return UsuarioDetails.builder()
                 .id(usuario.getId())
                 .email(usuario.getEmail())

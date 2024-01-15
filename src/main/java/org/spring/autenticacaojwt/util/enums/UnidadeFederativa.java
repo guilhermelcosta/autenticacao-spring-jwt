@@ -1,4 +1,4 @@
-package org.spring.autenticacaojwt.enums;
+package org.spring.autenticacaojwt.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

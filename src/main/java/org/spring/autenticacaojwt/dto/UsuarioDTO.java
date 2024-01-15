@@ -22,5 +22,7 @@ public record UsuarioDTO(
         String telefone,
         @JsonProperty("data_criacao") LocalDateTime dataCriacao,
         @JsonProperty("data_ultima_modificacao") LocalDateTime dataUltimaModificacao,
+        String plano,
+        String consultas,
         List<Link> links) {
 }

@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +46,8 @@ public class JWTComp {
      *
      * @return segredo gerado
      */
-    private SecretKey gerarChaveSegredo() {
+    @Contract(" -> new")
+    private @NotNull SecretKey gerarChaveSegredo() {
         return Keys.hmacShaKeyFor(this.jwtSegredo.getBytes());
     }
 
@@ -85,7 +89,7 @@ public class JWTComp {
      * @param token token
      * @return claims do usuário
      */
-    private Claims getClaims(String token) {
+    private @Nullable Claims getClaims(String token) {
         SecretKey chave = gerarChaveSegredo();
         try {
             return Jwts.parserBuilder().setSigningKey(chave).build().parseClaimsJws(token).getBody();

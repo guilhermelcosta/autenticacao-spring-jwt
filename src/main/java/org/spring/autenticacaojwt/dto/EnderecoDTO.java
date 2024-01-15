@@ -2,7 +2,7 @@ package org.spring.autenticacaojwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import org.spring.autenticacaojwt.enums.UnidadeFederativa;
+import org.spring.autenticacaojwt.util.enums.UnidadeFederativa;
 
 import java.util.UUID;
 

@@ -58,4 +58,25 @@ public class ConstantesUtil {
     public static final String MSG_ERRO_TELEFONE = "formato esperado: 00 00000-0000";
 
     public static final String MSG_ERRO_CEP = "formato esperado: 00000-000";
+
+    /*Números*/
+
+    public static final Integer NUM_UM = 1;
+
+    public static final Integer NUM_DOIS = 2;
+
+    public static final Integer NUM_SEIS = 6;
+
+    public static final Integer NUM_VINTE_E_CINCO = 25;
+
+    public static final Integer NUM_CEM = 100;
+
+    public static final Integer NUM_DUZENTOS = 200;
+
+    /*Enums*/
+
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+
+    public static final String ROLE_USUARIO = "ROLE_USUARIO";
+
 }

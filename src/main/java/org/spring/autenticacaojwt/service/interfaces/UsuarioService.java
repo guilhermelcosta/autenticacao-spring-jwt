@@ -15,6 +15,8 @@ public interface UsuarioService {
 
     UsuarioDTO encontrarPorId(@NotNull UUID id);
 
+    Usuario encontrarPorEmail(@NotNull String email);
+
     List<UsuarioDTO> listarTodos();
 
     UsuarioDTO criar(@NotNull Usuario usuario);
@@ -24,6 +26,4 @@ public interface UsuarioService {
     void deletar(@NotNull UUID id);
 
     void atualizarSenha(@NotNull UUID id, @NotNull SenhaDTO senhaDTO);
-
-    Usuario encontrarUsuarioPorEmail(@NotNull String email);
 }

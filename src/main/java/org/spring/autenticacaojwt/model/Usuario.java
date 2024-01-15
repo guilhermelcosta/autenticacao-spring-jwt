@@ -82,4 +82,10 @@ public class Usuario extends RepresentationModel<Usuario> implements Serializabl
     @JsonFormat(pattern = "dd/MM/yyyy")
     @JsonProperty("data_ultima_modificacao")
     private LocalDateTime dataUltimaModificacao;
+
+    @Column(name = "PLANO")
+    private String plano;
+
+    @Column(name = "CONSULTAS")
+    private String consultas;
 }

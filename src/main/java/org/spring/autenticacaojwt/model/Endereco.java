@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.spring.autenticacaojwt.enums.UnidadeFederativa;
+import org.spring.autenticacaojwt.util.enums.UnidadeFederativa;
 
 import java.io.Serial;
 import java.io.Serializable;

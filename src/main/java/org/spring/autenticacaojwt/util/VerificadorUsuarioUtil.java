@@ -2,9 +2,9 @@ package org.spring.autenticacaojwt.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.spring.autenticacaojwt.enums.PerfilUsuario;
 import org.spring.autenticacaojwt.excecoes.lancaveis.UsuarioNaoAutorizadoException;
 import org.spring.autenticacaojwt.seguranca.UsuarioDetails;
+import org.spring.autenticacaojwt.util.enums.PerfilUsuario;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.UUID;
@@ -17,6 +17,7 @@ public class VerificadorUsuarioUtil {
 
     /**
      * Verifica as autorizações de um usuário
+     * Essa versão do método suporta que uma requisição seja realizada por usuários não que não possuam perfil ADMIN
      *
      * @param idUsuarioCorrespondente id do objeto do tipo Usuario relacionado à requisição
      * @return usuário autorizado
@@ -38,6 +39,7 @@ public class VerificadorUsuarioUtil {
 
     /**
      * Verifica as autorizações de um usuário
+     * Essa versão do método bloqueia qualquer requisição por usuários não ADMINS
      *
      * @return usuário autorizado
      */

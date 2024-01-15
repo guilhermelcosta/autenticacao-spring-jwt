@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.controller.interfaces.OperacoesController;
+import org.spring.autenticacaojwt.controller.interfaces.UsuarioController;
 import org.spring.autenticacaojwt.dto.SenhaDTO;
 import org.spring.autenticacaojwt.dto.UsuarioDTO;
 import org.spring.autenticacaojwt.model.Usuario;
@@ -21,11 +22,11 @@ import static org.spring.autenticacaojwt.util.ConstantesUtil.ENDPOINT_USUARIO;
 @RestController
 @Validated
 @RequestMapping(ENDPOINT_USUARIO)
-public class UsuarioController implements OperacoesController<Usuario, UsuarioDTO> {
+public class UsuarioControllerImpl implements OperacoesController<Usuario, UsuarioDTO>, UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioControllerImpl(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
@@ -42,8 +43,6 @@ public class UsuarioController implements OperacoesController<Usuario, UsuarioDT
         UsuarioDTO usuario = this.usuarioService.encontrarPorId(id);
         return ResponseEntity.ok().body(usuario);
     }
-
-//    todo: método para encontrar usuário por e-mail
 
     /**
      * Lista todos os usuários cadastrados
@@ -109,10 +108,11 @@ public class UsuarioController implements OperacoesController<Usuario, UsuarioDT
      * @param senhaDTO objeto do tipo SenhaDTO
      * @return id do usuário atualizado
      */
+    @Override
     @PutMapping("{id}/atualizar-senha")
     public ResponseEntity<String> atualizarSenha(@PathVariable UUID id, @RequestBody SenhaDTO senhaDTO) {
         log.info(">>> atualizarSenha:  recebendo requisição para atualizar senha de usuário");
         this.usuarioService.atualizarSenha(id, senhaDTO);
-        return ResponseEntity.ok().body("Senha atualizada, id do usuário: " + id);
+        return ResponseEntity.ok().body(String.format("Senha atualizada, id do usuário: %s", id));
     }
 }

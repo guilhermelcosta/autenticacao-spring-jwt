@@ -2,7 +2,7 @@ package org.spring.autenticacaojwt.seguranca;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.spring.autenticacaojwt.enums.PerfilUsuario;
+import org.spring.autenticacaojwt.util.enums.PerfilUsuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
