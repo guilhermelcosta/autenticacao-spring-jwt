@@ -80,9 +80,8 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public Endereco atualizar(@NotNull Endereco endereco) {
-        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao(endereco.getId(), ENDERECO_SERVICE);
-        log.info(">>> atualizar: atualizando endereço");
         Endereco enderecoAtualizado = encontrarPorId(endereco.getId());
+        log.info(">>> atualizar: atualizando endereço");
         copyProperties(endereco, enderecoAtualizado);
         enderecoAtualizado = enderecoRepository.save(enderecoAtualizado);
         log.info(String.format(">>> atualizar: endereço atualizado, id: %s", enderecoAtualizado.getId()));
@@ -96,9 +95,8 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public void deletar(UUID id) {
-        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
-        log.info(">>> deletar: deletando endereço");
         encontrarPorId(id);
+        log.info(">>> deletar: deletando endereço");
         try {
             this.enderecoRepository.deleteById(id);
             log.info(String.format(">>> deletar: endereço deletado, id: %s", id));
