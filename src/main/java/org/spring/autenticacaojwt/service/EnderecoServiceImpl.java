@@ -2,6 +2,7 @@ package org.spring.autenticacaojwt.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.spring.autenticacaojwt.excecao.lancaveis.DeletarEntidadeException;
 import org.spring.autenticacaojwt.excecao.lancaveis.EntidadeNaoEncontradaException;
 import org.spring.autenticacaojwt.model.Endereco;
 import org.spring.autenticacaojwt.repository.EnderecoRepository;
@@ -95,6 +96,14 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public void deletar(UUID id) {
-
+        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
+        log.info(">>> deletar: deletando endereço");
+        encontrarPorId(id);
+        try {
+            this.enderecoRepository.deleteById(id);
+            log.info(String.format(">>> deletar: endereço deletado, id: %s", id));
+        } catch (Exception e) {
+            throw new DeletarEntidadeException(String.format("existem entidades relacionadas: %s", e));
+        }
     }
 }
