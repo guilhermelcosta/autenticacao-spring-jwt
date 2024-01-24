@@ -2,14 +2,15 @@ package org.spring.autenticacaojwt.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.controller.UsuarioControllerImpl;
 import org.spring.autenticacaojwt.dto.EnderecoDTO;
 import org.spring.autenticacaojwt.dto.UsuarioDTO;
 import org.spring.autenticacaojwt.model.Endereco;
 import org.spring.autenticacaojwt.model.Usuario;
 
-import java.util.Collections;
-
+import static java.lang.String.format;
+import static java.util.Collections.singletonList;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.CONVERSOR_ENTIDADE_DTO_UTIL;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -23,8 +24,8 @@ public class ConversorEntidadeDTOUtil {
      * @param usuario entidade do tipo Usuario
      * @return novo UsuarioDTO
      */
-    public static UsuarioDTO converterParaDTO(Usuario usuario) {
-        log.info(String.format(">>> converterParaDTO: convertendo Usuario (id: %s) para DTO", usuario.getId()));
+    public static UsuarioDTO converterParaDTO(@NotNull Usuario usuario) {
+        log.info(format(">>> converterParaDTO: convertendo Usuario (id: %s) para DTO", usuario.getId()));
         return UsuarioDTO.builder()
                 .id(usuario.getId())
                 .idEndereco(usuario.getEndereco().getId())
@@ -37,7 +38,7 @@ public class ConversorEntidadeDTOUtil {
                 .telefone(usuario.getTelefone())
                 .dataCriacao(usuario.getDataCriacao())
                 .dataUltimaModificacao(usuario.getDataUltimaModificacao())
-                .links(Collections.singletonList(linkTo(UsuarioControllerImpl.class).slash(usuario.getId()).withSelfRel()))
+                .links(singletonList(linkTo(UsuarioControllerImpl.class).slash(usuario.getId()).withSelfRel()))
                 .build();
     }
 
@@ -47,8 +48,8 @@ public class ConversorEntidadeDTOUtil {
      * @param endereco entidade do tipo Endereco
      * @return novo EnderecoDTO
      */
-    public static EnderecoDTO converterParaDTO(Endereco endereco) {
-        log.info(String.format(">>> converterParaDTO: convertendo Endereco (id: %s) para DTO", endereco.getId()));
+    public static EnderecoDTO converterParaDTO(@NotNull Endereco endereco) {
+        log.info(format(">>> converterParaDTO: convertendo Endereco (id: %s) para DTO", endereco.getId()));
         return EnderecoDTO.builder()
                 .id(endereco.getId())
                 .idUsuario(endereco.getUsuario() != null ? endereco.getUsuario().getId() : null)

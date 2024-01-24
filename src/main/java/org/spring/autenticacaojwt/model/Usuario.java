@@ -13,9 +13,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.spring.autenticacaojwt.util.constantes.ConstantesMsgErroUtil.*;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesErroValidadorUtil.*;
 
 
 @EqualsAndHashCode(callSuper = true)

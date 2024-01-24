@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,11 +23,11 @@ public interface OperacoesCRUDController<I, O> {
     ResponseEntity<List<O>> listarTodos();
 
     @PostMapping
-    ResponseEntity<String> criar(@Valid @RequestBody I obj);
+    ResponseEntity<Map<String, Object>> criar(@Valid @RequestBody I obj);
 
     @PutMapping("/{id}")
-    ResponseEntity<String> atualizar(@PathVariable UUID id, @Valid @RequestBody I obj);
+    ResponseEntity<Map<String, Object>> atualizar(@PathVariable UUID id, @Valid @RequestBody I obj);
 
     @DeleteMapping("/{id}")
-    ResponseEntity<String> deletar(@PathVariable UUID id);
+    ResponseEntity<Map<String, Object>> deletar(@PathVariable UUID id);
 }

@@ -10,7 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
-import static org.spring.autenticacaojwt.util.constantes.ConstantesMsgErroUtil.MSG_ERRO_CEP;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesErroValidadorUtil.MSG_ERRO_CEP;
 
 
 @Data

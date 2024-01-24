@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.util.UUID;
 
 @UtilityClass
-public class Constantes {
+public class ConstantesUsuario {
 
     public static final UUID UUID_MOCK = new UUID(1, 10);
 
@@ -19,7 +19,7 @@ public class Constantes {
 
     public static final String SENHA_MOCK = "123456";
 
-    public static final String SENHA_MOCK_ENCRIPTADA = "$2a$10$1hzfQKFoc0OxftqxbWdU/.xDtws6pyk9tiO2ll4kc31ZpDIsRrXi6";
+    public static final String SENHA_MOCK_ATUALIZADA = "1234567";
 
     public static final String TELEFONE_MOCK = "11 91111-1111";
 

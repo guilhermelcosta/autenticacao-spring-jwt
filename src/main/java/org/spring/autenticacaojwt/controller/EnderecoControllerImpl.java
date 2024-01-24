@@ -1,6 +1,7 @@
 package org.spring.autenticacaojwt.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.controller.interfaces.OperacoesCRUDController;
@@ -13,23 +14,24 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import static java.util.Arrays.asList;
+import static org.spring.autenticacaojwt.util.ConstrutorRespostaJsonUtil.construirRespostaJSON;
 import static org.spring.autenticacaojwt.util.ConversorEntidadeDTOUtil.converterParaDTO;
-import static org.spring.autenticacaojwt.util.constantes.ConstantesEndpointsUtil.ENDPOINT_ENDERECO;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesRequisicaoUtil.*;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.ENDERECO_CONTROLLER;
+import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j(topic = ENDERECO_CONTROLLER)
 @RestController
 @Validated
 @RequestMapping(ENDPOINT_ENDERECO)
+@AllArgsConstructor
 public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco, EnderecoDTO> {
 
     private final OperacoesCRUDService<Endereco> operacoesCRUDService;
-
-    public EnderecoControllerImpl(OperacoesCRUDService<Endereco> operacoesCRUDService) {
-        this.operacoesCRUDService = operacoesCRUDService;
-    }
 
     /**
      * Encontra um endereço a partir do seu id
@@ -41,7 +43,7 @@ public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco,
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> encontrarPorId(@PathVariable UUID id) {
         log.info(">>> encontrarPorId: recebendo requisição para encontrar endereço por id");
-        Endereco endereco = this.operacoesCRUDService.encontrarPorId(id);
+        Endereco endereco = operacoesCRUDService.encontrarPorId(id);
         return ResponseEntity.ok().body(converterParaDTO(endereco));
     }
 
@@ -54,7 +56,7 @@ public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco,
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> listarTodos() {
         log.info(">>> listarTodos: recebendo requisição para listar todos endereços");
-        List<Endereco> enderecos = this.operacoesCRUDService.listarTodos();
+        List<Endereco> enderecos = operacoesCRUDService.listarTodos();
         return ResponseEntity.ok().body(enderecos.stream().map(ConversorEntidadeDTOUtil::converterParaDTO).toList());
     }
 
@@ -66,10 +68,10 @@ public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco,
      */
     @Override
     @PostMapping
-    public ResponseEntity<String> criar(@Valid @RequestBody Endereco usuario) {
+    public ResponseEntity<Map<String, Object>> criar(@Valid @RequestBody Endereco usuario) {
         log.info(">>> criar: recebendo requisição para criar endereço");
-        Endereco enderecoCriado = this.operacoesCRUDService.criar(usuario);
-        return ResponseEntity.ok().body(String.format("Endereço criado, id: %s", enderecoCriado.getId()));
+        Endereco enderecoCriado = operacoesCRUDService.criar(usuario);
+        return ResponseEntity.ok().body(construirRespostaJSON(CHAVES_ENDERECO_CONTROLLER, asList(OK.value(), MSG_ENDERECO_CRIADO, enderecoCriado.getId())));
     }
 
     /**
@@ -81,11 +83,11 @@ public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco,
      */
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable UUID id, @Valid @RequestBody @NotNull Endereco usuario) {
+    public ResponseEntity<Map<String, Object>> atualizar(@PathVariable UUID id, @Valid @RequestBody @NotNull Endereco usuario) {
         log.info(">>> atualizar: recebendo requisição para atualizar endereço");
         usuario.setId(id);
-        Endereco enderecoAtualizado = this.operacoesCRUDService.atualizar(usuario);
-        return ResponseEntity.ok().body(String.format("Endereço atualizado, id: %s", enderecoAtualizado.getId()));
+        Endereco enderecoAtualizado = operacoesCRUDService.atualizar(usuario);
+        return ResponseEntity.ok().body(construirRespostaJSON(CHAVES_ENDERECO_CONTROLLER, asList(OK.value(), MSG_ENDERECO_ATUALIZADO, enderecoAtualizado.getId())));
     }
 
     /**
@@ -96,10 +98,10 @@ public class EnderecoControllerImpl implements OperacoesCRUDController<Endereco,
      */
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable UUID id) {
+    public ResponseEntity<Map<String, Object>> deletar(@PathVariable UUID id) {
         log.info(">>> deletar: recebendo requisição para deletar endereço");
-        this.operacoesCRUDService.deletar(id);
-        return ResponseEntity.ok().body(String.format("Endereço deletado, id: %s", id));
-    }
+        operacoesCRUDService.deletar(id);
+        return ResponseEntity.ok().body(construirRespostaJSON(CHAVES_ENDERECO_CONTROLLER, asList(OK.value(), MSG_ENDERECO_DELETADO, id)));
 
+    }
 }

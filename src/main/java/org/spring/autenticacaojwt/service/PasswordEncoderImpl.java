@@ -1,5 +1,6 @@
 package org.spring.autenticacaojwt.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,19 +10,13 @@ import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.E
 
 @Slf4j(topic = ENCRIPTADOR_SENHA_SERVICE)
 @Service
+@AllArgsConstructor
 public class PasswordEncoderImpl implements PasswordEncoder {
 
-    private static PasswordEncoderImpl INSTANCIA;
     private final BCryptPasswordEncoder encoder;
 
     public PasswordEncoderImpl() {
         this.encoder = new BCryptPasswordEncoder();
-    }
-
-    public static PasswordEncoderImpl getInstancia() {
-        if (INSTANCIA == null)
-            INSTANCIA = new PasswordEncoderImpl();
-        return INSTANCIA;
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.spring.autenticacaojwt.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.excecao.lancaveis.DeletarEntidadeException;
@@ -13,20 +14,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static java.lang.String.format;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesRequisicaoUtil.PROPRIEDADES_IGNORADAS;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.ENDERECO_SERVICE;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Slf4j(topic = ENDERECO_SERVICE)
 @Service
+@AllArgsConstructor
 public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
 
     private final ValidadorAutorizacaoRequisicaoService validadorAutorizacaoRequisicaoService;
     private final EnderecoRepository enderecoRepository;
-
-    public EnderecoServiceImpl(ValidadorAutorizacaoRequisicaoService validadorAutorizacaoRequisicaoService, EnderecoRepository enderecoRepository) {
-        this.validadorAutorizacaoRequisicaoService = validadorAutorizacaoRequisicaoService;
-        this.enderecoRepository = enderecoRepository;
-    }
 
     /**
      * Encontra um endereço a partir do seu id
@@ -36,10 +35,10 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public Endereco encontrarPorId(@NotNull UUID id) {
-        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao(id, ENDERECO_SERVICE);
         log.info(">>> encontrarPorId: encontrando endereço por id");
+        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao(id, ENDERECO_SERVICE);
         return enderecoRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format("endereço não encontrado, id: %s", id)));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(format("endereço não encontrado, id: %s", id)));
     }
 
     /**
@@ -49,8 +48,8 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public List<Endereco> listarTodos() {
-        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
         log.info(">>> listarTodos: listando todos endereços");
+        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
         return enderecoRepository.findAll()
                 .stream()
                 .toList();
@@ -64,11 +63,11 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public Endereco criar(@NotNull Endereco endereco) {
-        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
         log.info(">>> criar: criando endereço");
+        validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao();
         endereco.setId(null);
         endereco = enderecoRepository.save(endereco);
-        log.info(String.format(">>> criar: endereço criado, id: %s", endereco.getId()));
+        log.info(format(">>> criar: endereço criado, id: %s", endereco.getId()));
         return endereco;
     }
 
@@ -80,28 +79,28 @@ public class EnderecoServiceImpl implements OperacoesCRUDService<Endereco> {
      */
     @Override
     public Endereco atualizar(@NotNull Endereco endereco) {
-        Endereco enderecoAtualizado = encontrarPorId(endereco.getId());
         log.info(">>> atualizar: atualizando endereço");
-        copyProperties(endereco, enderecoAtualizado);
+        Endereco enderecoAtualizado = encontrarPorId(endereco.getId());
+        copyProperties(endereco, enderecoAtualizado, PROPRIEDADES_IGNORADAS);
         enderecoAtualizado = enderecoRepository.save(enderecoAtualizado);
-        log.info(String.format(">>> atualizar: endereço atualizado, id: %s", enderecoAtualizado.getId()));
+        log.info(format(">>> atualizar: endereço atualizado, id: %s", enderecoAtualizado.getId()));
         return enderecoAtualizado;
     }
 
     /**
-     * Delete um endereço a partir do seu id
+     * Deleta um endereço a partir do seu id
      *
      * @param id id do endereço
      */
     @Override
     public void deletar(UUID id) {
-        encontrarPorId(id);
         log.info(">>> deletar: deletando endereço");
+        encontrarPorId(id);
         try {
             this.enderecoRepository.deleteById(id);
-            log.info(String.format(">>> deletar: endereço deletado, id: %s", id));
+            log.info(format(">>> deletar: endereço deletado, id: %s", id));
         } catch (Exception e) {
-            throw new DeletarEntidadeException(String.format("existem entidades relacionadas: %s", e));
+            throw new DeletarEntidadeException(format("existem entidades relacionadas: %s", e));
         }
     }
 }

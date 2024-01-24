@@ -9,7 +9,7 @@ import org.spring.autenticacaojwt.seguranca.UsuarioDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.spring.autenticacaojwt.util.Constantes.*;
+import static org.spring.autenticacaojwt.util.ConstantesUsuario.*;
 
 @UtilityClass
 public class UsuarioMock {
@@ -45,7 +45,7 @@ public class UsuarioMock {
         return Usuario.builder()
                 .id(UUID_MOCK)
                 .endereco(new Endereco())
-                .perfilUsuario(PerfilUsuario.USUARIO.getCodigo())
+                .perfilUsuario(PerfilUsuario.ADMIN.getCodigo())
                 .nome(NOME_MOCK)
                 .rg(RG_MOCK)
                 .cpf(CPF_MOCK)

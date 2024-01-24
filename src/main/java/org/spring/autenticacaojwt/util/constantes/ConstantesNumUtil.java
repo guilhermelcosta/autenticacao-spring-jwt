@@ -2,9 +2,11 @@ package org.spring.autenticacaojwt.util.constantes;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Contém as constantes relacionadas a números
+ */
 @UtilityClass
 public class ConstantesNumUtil {
-
 
     public static final Integer UM = 1;
 

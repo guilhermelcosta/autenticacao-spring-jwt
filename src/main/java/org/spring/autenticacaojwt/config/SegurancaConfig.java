@@ -1,5 +1,6 @@
 package org.spring.autenticacaojwt.config;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.componentes.JWTComp;
@@ -9,7 +10,6 @@ import org.spring.autenticacaojwt.seguranca.UsuarioDetailsService;
 import org.spring.autenticacaojwt.service.PasswordEncoderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,21 +24,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.spring.autenticacaojwt.util.constantes.ConstantesRequisicaoUtil.*;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.SEGURANCA_CONFIG;
+import static org.springframework.http.HttpMethod.POST;
 
 
 @Slf4j(topic = SEGURANCA_CONFIG)
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@AllArgsConstructor
 public class SegurancaConfig {
 
     private final UsuarioDetailsService usuarioDetailsService;
     private final JWTComp jwtComp;
-
-    public SegurancaConfig(UsuarioDetailsService usuarioDetailsService, JWTComp jwtComp) {
-        this.usuarioDetailsService = usuarioDetailsService;
-        this.jwtComp = jwtComp;
-    }
 
     /**
      * Cria camada de segurança Filter Chain
@@ -62,7 +59,7 @@ public class SegurancaConfig {
                 .addFilter(new JWTFiltroAutorizacao(authenticationManager, this.jwtComp, this.usuarioDetailsService))
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers(CAMINHOS_PUBLICOS).permitAll();
-                    request.requestMatchers(HttpMethod.POST, CAMINHOS_PUBLICOS_POST).permitAll();
+                    request.requestMatchers(POST, CAMINHOS_PUBLICOS_POST).permitAll();
                     request.anyRequest().authenticated();
                 })
                 .build();
@@ -76,10 +73,10 @@ public class SegurancaConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         log.info(">>> corsConfigurationSource: iniciando configuração de Cors");
-        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-        configuration.setAllowedMethods(METODOS_PERMITIDOS_CORS);
+        final CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        configuration.setAllowedMethods(METODOS_PERMITIDOS_CORS);
+        source.registerCorsConfiguration(CONFIGURACAO_CORS, configuration);
         return source;
     }
 }

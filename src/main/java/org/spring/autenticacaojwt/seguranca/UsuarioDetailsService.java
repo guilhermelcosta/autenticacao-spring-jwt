@@ -1,5 +1,6 @@
 package org.spring.autenticacaojwt.seguranca;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.spring.autenticacaojwt.model.Usuario;
 import org.spring.autenticacaojwt.service.interfaces.UsuarioService;
@@ -14,13 +15,10 @@ import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.U
 
 @Slf4j(topic = USUARIO_SPRING_SECURITY_SERVICE)
 @Service
+@AllArgsConstructor
 public class UsuarioDetailsService implements UserDetailsService {
 
-    UsuarioService usuarioService;
-
-    public UsuarioDetailsService(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
+    private UsuarioService usuarioService;
 
     /**
      * Carrega informações do usuário

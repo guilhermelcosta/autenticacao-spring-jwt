@@ -1,16 +1,16 @@
-package org.spring.autenticacaojwt.validadores;
+package org.spring.autenticacaojwt.service.validadores;
 
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.seguranca.UsuarioDetails;
+import org.spring.autenticacaojwt.service.interfaces.Validador;
 
 import java.util.UUID;
 
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.USUARIO_SERVICE;
 
-
-public class UsuarioServiceValidador implements Validador {
-
-    private static final String TOPICO_VALIDADOR = USUARIO_SERVICE;
+@AllArgsConstructor
+public class UsuarioServiceValidadorImpl implements Validador {
 
     /**
      * Valida um usuário para efetuar uma requisição
@@ -31,6 +31,6 @@ public class UsuarioServiceValidador implements Validador {
      */
     @Override
     public String getTopico() {
-        return TOPICO_VALIDADOR;
+        return USUARIO_SERVICE;
     }
 }

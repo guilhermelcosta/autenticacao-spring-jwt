@@ -1,4 +1,4 @@
-package org.spring.autenticacaojwt.validadores;
+package org.spring.autenticacaojwt.service.interfaces;
 
 import org.spring.autenticacaojwt.seguranca.UsuarioDetails;
 

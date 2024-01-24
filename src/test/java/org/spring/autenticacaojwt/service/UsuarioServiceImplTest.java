@@ -15,19 +15,21 @@ import org.spring.autenticacaojwt.service.interfaces.ValidadorAutorizacaoRequisi
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.spring.autenticacaojwt.mocks.SenhaMock.getSenhaMock;
+import static org.spring.autenticacaojwt.mocks.SenhaMock.getSenhaMockEncriptada;
 import static org.spring.autenticacaojwt.mocks.UsuarioMock.*;
-import static org.spring.autenticacaojwt.util.Constantes.*;
+import static org.spring.autenticacaojwt.util.ConstantesUsuario.*;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesNumUtil.DOIS;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.USUARIO_SERVICE;
 
@@ -35,7 +37,7 @@ import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.U
 public class UsuarioServiceImplTest {
 
     @InjectMocks
-    private UsuarioServiceImpl usuarioServiceImpl;
+    private UsuarioServiceImpl usuarioService;
 
     @Mock
     private UsuarioRepository usuarioRepository;
@@ -54,7 +56,7 @@ public class UsuarioServiceImplTest {
 
         // When
         when(usuarioRepository.save(usuarioEnviadoRequisicao)).thenReturn(usuarioEnviadoRequisicao);
-        Usuario usuarioCriado = usuarioServiceImpl.criar(usuarioEnviadoRequisicao);
+        Usuario usuarioCriado = usuarioService.criar(usuarioEnviadoRequisicao);
 
         // Then
         assertSame(usuarioCriado, usuarioEnviadoRequisicao);
@@ -68,10 +70,10 @@ public class UsuarioServiceImplTest {
 
         // When
         when(usuarioRepository.save(usuario)).thenReturn(usuario);
-        when(usuarioServiceImpl.criar(usuario)).thenThrow(DataIntegrityViolationException.class);
+        when(usuarioService.criar(usuario)).thenThrow(DataIntegrityViolationException.class);
 
         // Then
-        assertThrows(DataIntegrityViolationException.class, () -> usuarioServiceImpl.criar(usuario));
+        assertThrows(DataIntegrityViolationException.class, () -> usuarioService.criar(usuario));
     }
 
     @Test
@@ -82,7 +84,7 @@ public class UsuarioServiceImplTest {
 
         // When
         when(usuarioRepository.findById(UUID_MOCK)).thenReturn(ofNullable(usuarioBuscado));
-        Usuario usuarioEncontrado = usuarioServiceImpl.encontrarPorId(UUID_MOCK);
+        Usuario usuarioEncontrado = usuarioService.encontrarPorId(UUID_MOCK);
 
         // Then
         assertNotNull(usuarioEncontrado);
@@ -96,7 +98,7 @@ public class UsuarioServiceImplTest {
         when(usuarioRepository.findById(UUID_MOCK)).thenReturn(empty());
 
         // Then
-        assertThrows(EntidadeNaoEncontradaException.class, () -> usuarioServiceImpl.encontrarPorId(UUID_MOCK));
+        assertThrows(EntidadeNaoEncontradaException.class, () -> usuarioService.encontrarPorId(UUID_MOCK));
     }
 
     @Test
@@ -107,7 +109,7 @@ public class UsuarioServiceImplTest {
 
         // When
         when(usuarioRepository.findByEmail(EMAIL_MOCK)).thenReturn(ofNullable(usuarioBuscado));
-        Usuario usuarioEncontrado = usuarioServiceImpl.encontrarPorEmail(EMAIL_MOCK);
+        Usuario usuarioEncontrado = usuarioService.encontrarPorEmail(EMAIL_MOCK);
 
         // Then
         assertNotNull(usuarioEncontrado);
@@ -121,18 +123,18 @@ public class UsuarioServiceImplTest {
         when(usuarioRepository.findByEmail(EMAIL_MOCK)).thenReturn(empty());
 
         // Then
-        assertThrows(EntidadeNaoEncontradaException.class, () -> usuarioServiceImpl.encontrarPorEmail(EMAIL_MOCK));
+        assertThrows(EntidadeNaoEncontradaException.class, () -> usuarioService.encontrarPorEmail(EMAIL_MOCK));
     }
 
     @Test
     @DisplayName("testListarTodos: possui usuários cadastrados -> deve listar usuários")
     void testListarTodos_possuiUsuariosCadastrados_deveListarUsuarios() {
         // Given
-        List<Usuario> usuariosCadastrados = Arrays.asList(getUsuarioMock(), getUsuarioMock());
+        List<Usuario> usuariosCadastrados = asList(getUsuarioMock(), getUsuarioMock());
 
         // When
         when(usuarioRepository.findAll()).thenReturn(usuariosCadastrados);
-        List<Usuario> usuariosRecuperados = usuarioServiceImpl.listarTodos();
+        List<Usuario> usuariosRecuperados = usuarioService.listarTodos();
 
         // Then
         assertEquals(DOIS, usuariosRecuperados.size());
@@ -149,7 +151,7 @@ public class UsuarioServiceImplTest {
         when(validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao(UUID_MOCK, USUARIO_SERVICE)).thenReturn(getUsuarioDetailsMockNaoADMIN());
         when(usuarioRepository.findById(UUID_MOCK)).thenReturn(ofNullable(usuarioAtualizadoEnviadoRequisicao));
         when(usuarioRepository.save(requireNonNull(usuarioAtualizadoEnviadoRequisicao))).thenReturn(usuarioAtualizadoEnviadoRequisicao);
-        Usuario usuarioAtualizado = usuarioServiceImpl.atualizar(usuarioAtualizadoEnviadoRequisicao);
+        Usuario usuarioAtualizado = usuarioService.atualizar(usuarioAtualizadoEnviadoRequisicao);
 
         // Then
         assertNotNull(usuarioAtualizado);
@@ -166,7 +168,7 @@ public class UsuarioServiceImplTest {
         when(validadorAutorizacaoRequisicaoService.validarAutorizacaoRequisicao(UUID_MOCK, USUARIO_SERVICE)).thenReturn(getUsuarioDetailsMockADMIN());
         when(usuarioRepository.findById(UUID_MOCK)).thenReturn(ofNullable(usuarioAtualizadoEnviadoRequisicao));
         when(usuarioRepository.save(requireNonNull(usuarioAtualizadoEnviadoRequisicao))).thenReturn(usuarioAtualizadoEnviadoRequisicao);
-        Usuario usuarioAtualizado = usuarioServiceImpl.atualizar(usuarioAtualizadoEnviadoRequisicao);
+        Usuario usuarioAtualizado = usuarioService.atualizar(usuarioAtualizadoEnviadoRequisicao);
 
         // Then
         assertNotNull(usuarioAtualizado);
@@ -185,7 +187,7 @@ public class UsuarioServiceImplTest {
         when(usuarioRepository.save(requireNonNull(usuarioAtualizadoEnviadoRequisicao))).thenThrow(DataIntegrityViolationException.class);
 
         // Then
-        assertThrows(DataIntegrityViolationException.class, () -> usuarioServiceImpl.atualizar(usuarioAtualizadoEnviadoRequisicao));
+        assertThrows(DataIntegrityViolationException.class, () -> usuarioService.atualizar(usuarioAtualizadoEnviadoRequisicao));
     }
 
     @Test
@@ -198,7 +200,7 @@ public class UsuarioServiceImplTest {
         when(usuarioRepository.findById(UUID_MOCK)).thenReturn(ofNullable(usuarioDeletado));
 
         // Then
-        assertDoesNotThrow(() -> usuarioServiceImpl.deletar(requireNonNull(usuarioDeletado).getId()));
+        assertDoesNotThrow(() -> usuarioService.deletar(requireNonNull(usuarioDeletado).getId()));
     }
 
     @Test
@@ -212,7 +214,7 @@ public class UsuarioServiceImplTest {
         doThrow(DeletarEntidadeException.class).when(usuarioRepository).deleteById(UUID_MOCK);
 
         // Then
-        assertThrows(DeletarEntidadeException.class, () -> usuarioServiceImpl.deletar(requireNonNull(usuarioDeletado).getId()));
+        assertThrows(DeletarEntidadeException.class, () -> usuarioService.deletar(requireNonNull(usuarioDeletado).getId()));
     }
 
     @Test
@@ -222,14 +224,13 @@ public class UsuarioServiceImplTest {
         Usuario usuario = getUsuarioMock();
         SenhaDTO senhaEnviadaRequisicao = getSenhaMock();
 
-
         // When
         when(usuarioRepository.findById(usuario.getId())).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(SENHA_MOCK, SENHA_MOCK)).thenReturn(true);
-        when(usuarioRepository.buscarSenhaUsuarioPorId(usuario.getId())).thenReturn(SENHA_MOCK_ENCRIPTADA);
+        when(passwordEncoder.matches(any(), any())).thenReturn(true);
+        when(usuarioRepository.buscarSenhaUsuarioPorId(usuario.getId())).thenReturn(getSenhaMockEncriptada());
 
         // Then
-        assertDoesNotThrow(() -> usuarioServiceImpl.atualizarSenha(usuario.getId(), senhaEnviadaRequisicao));
+        assertDoesNotThrow(() -> usuarioService.atualizarSenha(usuario.getId(), senhaEnviadaRequisicao));
     }
 
     @Test
@@ -239,13 +240,12 @@ public class UsuarioServiceImplTest {
         Usuario usuario = getUsuarioMock();
         SenhaDTO senhaEnviadaRequisicao = getSenhaMock();
 
-
         // When
         when(usuarioRepository.findById(usuario.getId())).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(SENHA_MOCK, SENHA_MOCK)).thenReturn(false);
+        when(passwordEncoder.matches(any(), any())).thenReturn(false);
         when(usuarioRepository.buscarSenhaUsuarioPorId(usuario.getId())).thenReturn(SENHA_MOCK);
 
         // Then
-        assertThrows(AtualizarSenhaException.class, () -> usuarioServiceImpl.atualizarSenha(usuario.getId(), senhaEnviadaRequisicao));
+        assertThrows(AtualizarSenhaException.class, () -> usuarioService.atualizarSenha(usuario.getId(), senhaEnviadaRequisicao));
     }
 }

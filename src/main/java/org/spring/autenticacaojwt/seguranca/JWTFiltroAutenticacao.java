@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import static java.lang.String.format;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesRequisicaoUtil.*;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.JWT_FILTRO_AUTENTICACAO;
 
@@ -49,10 +50,10 @@ public class JWTFiltroAutenticacao extends UsernamePasswordAuthenticationFilter 
         try {
             usuario = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
         } catch (IOException e) {
-            throw new RuntimeException(String.format("[ERRO] IOException: falha ao ler autenticação do usuário: %s", e));
+            throw new RuntimeException(format("[ERRO] IOException: falha ao ler autenticação do usuário: %s", e));
         }
         log.info("=========================================================================");
-        log.info(String.format(">>> attemptAuthentication: realizando autenticação do usuário: %s", usuario.getEmail()));
+        log.info(format(">>> attemptAuthentication: realizando autenticação do usuário: %s", usuario.getEmail()));
         UsernamePasswordAuthenticationToken tokenAuth = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getSenha(), new ArrayList<>());
         return this.authenticationManager.authenticate(tokenAuth);
     }
@@ -71,13 +72,13 @@ public class JWTFiltroAutenticacao extends UsernamePasswordAuthenticationFilter 
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
         String emailUsuario = usuarioDetails.getUsername();
         String token = this.jwtComp.gerarToken(emailUsuario);
-        response.addHeader(HEADER_AUTORIZACAO, String.format(VALOR_HEADER_AUTORIZACAO, token));
+        response.addHeader(HEADER_AUTORIZACAO, format(VALOR_HEADER_AUTORIZACAO, token));
         response.setContentType(CONTENT_TYPE);
         response.setCharacterEncoding(CHARACTER_ENCODING);
         try {
-            response.getWriter().write(String.format(CORPO_RESPOSTA_REQUISICAO, token, emailUsuario, LocalDateTime.now()));
+            response.getWriter().write(format(CORPO_RESPOSTA_REQUISICAO, token, emailUsuario, LocalDateTime.now()));
         } catch (IOException e) {
-            throw new RuntimeException(String.format("[ERRO] IOException: falha ao escrever headers de resposta: %s", e));
+            throw new RuntimeException(format("[ERRO] IOException: falha ao escrever headers de resposta: %s", e));
         }
     }
 }

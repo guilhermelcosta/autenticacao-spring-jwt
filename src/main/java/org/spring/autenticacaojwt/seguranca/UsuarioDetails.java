@@ -1,5 +1,6 @@
 package org.spring.autenticacaojwt.seguranca;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.spring.autenticacaojwt.enums.PerfilUsuario;
@@ -13,19 +14,13 @@ import java.util.UUID;
 
 @Builder
 @Getter
+@AllArgsConstructor
 public class UsuarioDetails implements UserDetails {
 
     private UUID id;
     private String email;
     private String senha;
     private PerfilUsuario perfilUsuario;
-
-    public UsuarioDetails(UUID id, String email, String senha, PerfilUsuario perfilUsuario) {
-        this.id = id;
-        this.email = email;
-        this.senha = senha;
-        this.perfilUsuario = perfilUsuario;
-    }
 
     /**
      * Verifica se usuário é de um determinado perfil

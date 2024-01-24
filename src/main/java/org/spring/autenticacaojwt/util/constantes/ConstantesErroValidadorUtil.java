@@ -2,8 +2,11 @@ package org.spring.autenticacaojwt.util.constantes;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Contém as constantes relacionadas aos erros de validação de uma requisição
+ */
 @UtilityClass
-public class ConstantesMsgErroUtil {
+public class ConstantesErroValidadorUtil {
 
     public static final String MSG_ERRO_USUARIO_SENHA = "nome de usuário ou senha inválidos";
 

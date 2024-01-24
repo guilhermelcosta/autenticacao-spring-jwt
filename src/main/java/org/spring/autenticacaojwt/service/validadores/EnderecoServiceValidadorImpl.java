@@ -1,21 +1,19 @@
-package org.spring.autenticacaojwt.validadores;
+package org.spring.autenticacaojwt.service.validadores;
 
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.spring.autenticacaojwt.repository.EnderecoRepository;
 import org.spring.autenticacaojwt.seguranca.UsuarioDetails;
+import org.spring.autenticacaojwt.service.interfaces.Validador;
 
 import java.util.UUID;
 
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.ENDERECO_SERVICE;
 
-public class EnderecoServiceValidador implements Validador {
+@AllArgsConstructor
+public class EnderecoServiceValidadorImpl implements Validador {
 
-    private static final String TOPICO_VALIDADOR = ENDERECO_SERVICE;
     private final EnderecoRepository enderecoRepository;
-
-    public EnderecoServiceValidador(EnderecoRepository enderecoRepository) {
-        this.enderecoRepository = enderecoRepository;
-    }
 
     /**
      * Valida um usuário para efetuar uma requisição
@@ -37,6 +35,6 @@ public class EnderecoServiceValidador implements Validador {
      */
     @Override
     public String getTopico() {
-        return TOPICO_VALIDADOR;
+        return ENDERECO_SERVICE;
     }
 }

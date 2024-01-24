@@ -2,7 +2,6 @@ package org.spring.autenticacaojwt.componentes;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +11,9 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+import static io.jsonwebtoken.Jwts.parserBuilder;
+import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
+import static java.lang.System.currentTimeMillis;
 import static java.util.Objects.nonNull;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.JWT_COMP;
 
@@ -36,7 +38,7 @@ public class JWTComp {
         SecretKey chave = gerarChaveSegredo();
         return Jwts.builder()
                 .setSubject(email)
-                .setExpiration(new Date(System.currentTimeMillis() + tempoExpiracao))
+                .setExpiration(new Date(currentTimeMillis() + tempoExpiracao))
                 .signWith(chave)
                 .compact();
     }
@@ -47,7 +49,7 @@ public class JWTComp {
      * @return segredo gerado
      */
     private @NotNull SecretKey gerarChaveSegredo() {
-        return Keys.hmacShaKeyFor(this.jwtSegredo.getBytes());
+        return hmacShaKeyFor(this.jwtSegredo.getBytes());
     }
 
     /**
@@ -62,7 +64,7 @@ public class JWTComp {
         if (nonNull(claims)) {
             String nome = claims.getSubject();
             Date dataExpiracaoToken = claims.getExpiration();
-            Date dataAtual = new Date(System.currentTimeMillis());
+            Date dataAtual = new Date(currentTimeMillis());
             return nonNull(nome) && nonNull(dataExpiracaoToken) && dataAtual.before(dataExpiracaoToken);
         }
         log.info(">>> tokenValido: token expirado");
@@ -91,7 +93,7 @@ public class JWTComp {
     private @Nullable Claims getClaims(String token) {
         SecretKey chave = gerarChaveSegredo();
         try {
-            return Jwts.parserBuilder().setSigningKey(chave).build().parseClaimsJws(token).getBody();
+            return parserBuilder().setSigningKey(chave).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
             return null;
         }

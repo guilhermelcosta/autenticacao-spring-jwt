@@ -2,6 +2,9 @@ package org.spring.autenticacaojwt.util.constantes;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Contém as constantes relacionadas aos tópicos das classes
+ */
 @UtilityClass
 public class ConstantesTopicosUtil {
 
@@ -19,8 +22,6 @@ public class ConstantesTopicosUtil {
 
     public static final String ENDERECO_CONTROLLER = "ENDERECO_CONTROLLER";
 
-    public static final String PROCEDIMENTO_CONTROLLER = "PROCEDIMENTO_CONTROLLER";
-
     public static final String INDICADOR_SAUDE_SISTEMA_COMP = "INDICADOR_SAUDE_SISTEMA_COMP";
 
     public static final String JWT_COMP = "JWT_COMP";
@@ -32,7 +33,6 @@ public class ConstantesTopicosUtil {
     public static final String JWT_FILTRO_AUTENTICACAO = "JWT_FILTRO_AUTENTICACAO";
 
     public static final String JWT_FILTRO_AUTORIZACAO = "JWT_FILTRO_AUTORIZACAO";
-
 
     public static final String CONVERSOR_ENTIDADE_DTO_UTIL = "CONVERSOR_ENTIDADE_DTO_UTIL";
 }

@@ -3,17 +3,27 @@ package org.spring.autenticacaojwt.util.constantes;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
+/**
+ * Contém as constantes relacionadas às requisições
+ */
 @UtilityClass
 public class ConstantesRequisicaoUtil {
+
+    public static final String ENDPOINT_USUARIO = "/usuario";
+
+    public static final String ENDPOINT_ENDERECO = "/endereco";
 
     public static final String[] CAMINHOS_PUBLICOS = {"/", "/actuator/health"};
 
     public static final String[] CAMINHOS_PUBLICOS_POST = {"/usuario", "/login"};
 
-    public static final List<String> METODOS_PERMITIDOS_CORS = new ArrayList<>(Arrays.asList("POST", "GET", "PUT", "DELETE"));
+    public static final List<String> METODOS_PERMITIDOS_CORS = new ArrayList<>(asList("GET", "POST", "PUT", "PATCH", "HEAD", "OPTIONS"));
+
+    public static final String CONFIGURACAO_CORS = "/**";
 
     public static final String HEADER_AUTORIZACAO = "Authorization";
 
@@ -30,4 +40,24 @@ public class ConstantesRequisicaoUtil {
             "\n\"usuario\": \"%s\"" + "," +
             "\n\"hora\": \"%s\"" + "," +
             "\n}";
+
+    public static final String[] PROPRIEDADES_IGNORADAS = new String[]{"id", "senha", "perfilUsuario", "endereco", "dataCriacao", "dataUltimaModificacao"};
+
+    public static final List<String> CHAVES_ENDERECO_CONTROLLER = new ArrayList<>(asList("status", "mensagem", "id_endereco"));
+
+    public static final List<String> CHAVES_USUARIO_CONTROLLER = new ArrayList<>(asList("status", "mensagem", "id_usuario"));
+
+    public static final String MSG_ENDERECO_CRIADO = "endereco criado com sucesso";
+
+    public static final String MSG_ENDERECO_ATUALIZADO = "endereco atualizado com sucesso";
+
+    public static final String MSG_ENDERECO_DELETADO = "endereco deletado com sucesso";
+
+    public static final String MSG_USUARIO_CRIADO = "usuario criado com sucesso";
+
+    public static final String MSG_USUARIO_ATUALIZADO = "usuario atualizado com sucesso";
+
+    public static final String MSG_USUARIO_DELETADO = "usuario deletado com sucesso";
+
+    public static final String MSG_USUARIO_SENHA = "senha atualizada com sucesso";
 }

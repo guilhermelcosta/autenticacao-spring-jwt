@@ -5,8 +5,6 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import static org.spring.autenticacaojwt.util.constantes.ConstantesEnumUtil.ROLE_ADMIN;
-import static org.spring.autenticacaojwt.util.constantes.ConstantesEnumUtil.ROLE_USUARIO;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesNumUtil.DOIS;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesNumUtil.UM;
 
@@ -15,8 +13,8 @@ import static org.spring.autenticacaojwt.util.constantes.ConstantesNumUtil.UM;
 @AllArgsConstructor
 public enum PerfilUsuario {
 
-    ADMIN(UM, ROLE_ADMIN),
-    USUARIO(DOIS, ROLE_USUARIO);
+    ADMIN(UM, "ROLE_ADMIN"),
+    USUARIO(DOIS, "ROLE_USUARIO");
 
     private final Integer codigo;
     private final String descricao;

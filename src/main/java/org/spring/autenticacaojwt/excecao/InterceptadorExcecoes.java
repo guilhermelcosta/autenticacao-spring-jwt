@@ -25,8 +25,9 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
 
 import java.io.IOException;
 
-import static org.spring.autenticacaojwt.util.constantes.ConstantesMsgErroUtil.MSG_ERRO_USUARIO_SENHA;
-import static org.spring.autenticacaojwt.util.constantes.ConstantesMsgErroUtil.MSG_ERRO_VALIDACAO;
+import static java.lang.String.format;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesErroValidadorUtil.MSG_ERRO_USUARIO_SENHA;
+import static org.spring.autenticacaojwt.util.constantes.ConstantesErroValidadorUtil.MSG_ERRO_VALIDACAO;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesRequisicaoUtil.CONTENT_TYPE;
 import static org.spring.autenticacaojwt.util.constantes.ConstantesTopicosUtil.INTERCEPTADOR_EXCECOES;
 
@@ -79,10 +80,10 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
      * @return tratamento da exceção (log e resposta requisição)
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({Exception.class, TopicoNaoEncontradoException.class})
+    @ExceptionHandler({Exception.class, TopicoNaoEncontradoException.class, ConstrutorRespostaJsonException.class})
     public ResponseEntity<Object> capturarException(@NotNull Exception e, WebRequest request) {
         final String msgErro = e.getMessage();
-        log.error(String.format("[ERRO] Exception: erro desconhecido ocorrido: %s", msgErro));
+        log.error(format("[ERRO] Exception: erro desconhecido ocorrido: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
@@ -97,7 +98,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> capturarDataIntegrityViolationException(@NotNull DataIntegrityViolationException e, WebRequest request) {
         String msgErro = e.getMostSpecificCause().getMessage();
-        log.error(String.format("[ERRO] DataIntegrityViolationException: falha para salvar a entidade: %s", msgErro));
+        log.error(format("[ERRO] DataIntegrityViolationException: falha para salvar a entidade: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.CONFLICT, request);
     }
 
@@ -112,7 +113,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler(AtualizarSenhaException.class)
     public ResponseEntity<Object> capturarAtualizarSenhaException(@NotNull AtualizarSenhaException e, WebRequest request) {
         String msgErro = e.getMostSpecificCause().getMessage();
-        log.error(String.format("[ERRO] AtualizarSenhaException: falha para atualizar a senha: %s", msgErro));
+        log.error(format("[ERRO] AtualizarSenhaException: falha para atualizar a senha: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.CONFLICT, request);
     }
 
@@ -127,7 +128,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler(DeletarEntidadeException.class)
     public ResponseEntity<Object> capturarDeletarEntidadeException(@NotNull DeletarEntidadeException e, WebRequest request) {
         String msgErro = e.getMessage();
-        log.error(String.format("[ERRO] DeletarEntidadeException: falha ao deletar a entidade: %s", msgErro));
+        log.error(format("[ERRO] DeletarEntidadeException: falha ao deletar a entidade: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.CONFLICT, request);
     }
 
@@ -142,7 +143,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler(UsuarioNaoAutorizadoException.class)
     public ResponseEntity<Object> capturarUsuarioNaoAutorizadoException(@NotNull UsuarioNaoAutorizadoException e, WebRequest request) {
         String msgErro = e.getMessage();
-        log.error(String.format("[ERRO] UsuarioNaoAutorizadoException: falha na autorização do usuário: %s", msgErro));
+        log.error(format("[ERRO] UsuarioNaoAutorizadoException: falha na autorização do usuário: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.FORBIDDEN, request);
     }
 
@@ -157,7 +158,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<Object> capturarEntidadeNaoEncontradaException(@NotNull EntidadeNaoEncontradaException e, WebRequest request) {
         String msgErro = e.getMessage();
-        log.error(String.format("[ERRO] EntidadeNaoEncontradaException: entidade não encontrada: %s", msgErro));
+        log.error(format("[ERRO] EntidadeNaoEncontradaException: entidade não encontrada: %s", msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.NOT_FOUND, request);
     }
 
@@ -172,7 +173,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver imple
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<Object> capturarMethodArgumentTypeMismatchExceptionEHttpMessageNotReadableException(@NotNull Exception e, WebRequest request) {
         String msgErro = e.getMessage();
-        log.error(String.format("[ERRO] %s: erro ao converter valor de string: %s", e.getClass().getSimpleName(), msgErro));
+        log.error(format("[ERRO] %s: erro ao converter valor de string: %s", e.getClass().getSimpleName(), msgErro));
         return construirMsgErro(e, msgErro, HttpStatus.BAD_REQUEST, request);
     }
 
